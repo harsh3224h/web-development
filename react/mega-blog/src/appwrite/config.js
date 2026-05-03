@@ -122,6 +122,7 @@ export class Service {
     }
 
     async getFilePreview(fileId) {
+        // this method required paid version
         try {
             return this.storage.getFilePreview({
                 bucketId: conf.appwriteBucketId,
@@ -129,6 +130,18 @@ export class Service {
             });
         } catch (error) {
             console.error("Appwrite serive :: getFilePreview :: error", error);
+            throw error;
+        }
+    }
+
+    async getFileView(fileId) {
+        try {
+            return this.storage.getFileView({
+                bucketId: conf.appwriteBucketId,
+                fileId: fileId,
+            });
+        } catch (error) {
+            console.error("Appwrite serive :: getFileView :: error", error);
             throw error;
         }
     }

@@ -12,6 +12,7 @@ function EditPost() {
         if (slug) {
             appwriteService.getPost(slug).then((post) => {
                 if (post) {
+                    console.log('Post form invoked with ->', post)
                     setPost(post);
                 }
             })

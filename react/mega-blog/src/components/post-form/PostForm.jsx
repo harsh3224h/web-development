@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router'
 import { useSelector } from 'react-redux'
 
 function PostForm({ post }) {
+    console.log("post form recieved ->", post)
     const navigate = useNavigate()
     const userData = useSelector(state => state.auth.userData)
 
@@ -38,8 +39,6 @@ function PostForm({ post }) {
             if (file) {
                 const fileId = file.$id
                 data.featuredImage = fileId;
-                // debugging starts here
-                console.log(data, userData.$id)
                 const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id })
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`)

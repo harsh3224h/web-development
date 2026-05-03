@@ -11,6 +11,7 @@ import Logo from './components/Logo';
 function App() {
 
   const [loading, setLoading] = useState(true);
+  const [loggedOut, setLoggedOut] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -18,9 +19,11 @@ function App() {
       .then((userData) => {
         if (userData) {
           dispatch(login({ userData }));
+          setLoggedOut(false);
         }
         else {
           dispatch(logout())
+          setLoggedOut(true)
         }
       })
       .finally(() => setLoading(false));
@@ -31,6 +34,7 @@ function App() {
       <div className='min-h-screen flex flex-col bg-gray-400'>
         <Header />
         <main>
+
           <Outlet />
         </main>
         <Footer />
