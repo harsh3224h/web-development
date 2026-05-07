@@ -1,0 +1,176 @@
+:root {
+  --background: #1a1a1a;
+  --surface: #2d2d2d;
+  --primary: #646cff;
+  --text: #ffffff;
+  --text-secondary: #888888;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+header p {
+  color: var(--text-secondary);
+}
+
+main {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 2rem;
+}
+
+.queue-form {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: 8px;
+  height: fit-content;
+}
+
+.queue-form h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--text-secondary);
+  border-radius: 4px;
+  background: var(--background);
+  color: var(--text);
+  font-size: 1rem;
+  box-sizing: border-box;
+  height: 45px;
+}
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 1.5em;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+button {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--primary);
+  color: var(--text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  height: 45px;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.queue-display {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.queue-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.queue-item {
+  background: var(--background);
+  padding: 1rem;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.customer-info h3 {
+  margin: 0;
+  color: var(--text);
+}
+
+.customer-info p {
+  margin: 0.5rem 0;
+  color: var(--text-secondary);
+}
+
+.status {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actions button {
+  width: auto;
+  padding: 0.5rem 1rem;
+}
+
+.serve-btn {
+  background: var(--success);
+}
+
+.complete-btn {
+  background: var(--info);
+}
+
+.remove-btn {
+  background: var(--error);
+}
+
+.empty-queue {
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}
