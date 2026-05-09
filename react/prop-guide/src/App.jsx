@@ -2,7 +2,7 @@ import { useState } from "react";
 import BasicProps from "./components/BasicProps";
 import RefProps from "./components/RefProps";
 import ChildrenProps from "./components/ChildrenProps";
-import ThemeToggler from "./components/ThemeToggler";
+import ThemeToggler, { ThemeProvider } from "./components/ThemeToggler";
 import ComplexProps from "./components/ComplexProps";
 import "./App.css";
 
@@ -55,13 +55,13 @@ function AppContent() {
             <BasicProps />
           </div>
           <div id="basic" className="scroll-mt-200">
-            <RefProps />
-          </div>
-          <div id="basic" className="scroll-mt-200">
             <ChildrenProps />
           </div>
           <div id="basic" className="scroll-mt-200">
             <ComplexProps />
+          </div>
+          <div id="basic" className="scroll-mt-200">
+            <RefProps />
           </div>
           <div id="basic" className="scroll-mt-200">
             <ThemeToggler />
@@ -85,7 +85,9 @@ function App() {
 
   return (
     <div>
-      <AppContent />
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
     </div>
   );
 }
