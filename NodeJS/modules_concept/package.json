@@ -1,0 +1,14 @@
+{
+  "name": "modules_concept",
+  "version": "1.0.0",
+  "description": "Learning modules concept for the first time I guess",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Harsh Dhiman",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^25.6.2"
+  }
+}

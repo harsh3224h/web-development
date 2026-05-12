@@ -1,0 +1,9 @@
+We have modules system in NodeJS
+
+3 ways to use modules
+
+1. Using built in modules
+2. Using 3rd party modules (created by other devs)
+3. Creating our own modules
+
+anyway, JS is amazing
