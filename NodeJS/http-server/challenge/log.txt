@@ -1,0 +1,5 @@
+Server Logs
+Time: 1778738101710 | URL: /tweets | Method: GET
+Time: 1778738101847 | URL: /.well-known/appspecific/com.chrome.devtools.json | Method: GET
+
+
