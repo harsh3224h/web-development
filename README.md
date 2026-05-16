@@ -12,6 +12,7 @@ structured modules and practice work across the following technologies:
 - **CSS**
 - **JavaScript**
 - **React**
+- **NodeJS**
 <!-- -  **Front-end Libraries** *(upcoming)*
 - **Python for Web** _(upcoming)_
 - **Relational Databases (MySQL, PostgreSQL)** _(upcoming)_ -->
@@ -29,6 +30,7 @@ web-development/
 ├── CSS/
 ├── JavaScript/
 ├── react/
+├── NodeJS/
 ├── Projects/
 ├── workshops and labs/
 ├── docs/
