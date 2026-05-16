@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require("node:fs");
 const app = express();
 const port = 8000;
 
@@ -10,11 +11,25 @@ const books = [
   { id: 3, title: "Think and Grow Rich", author: "Napoleon Hill" },
 ];
 
+// creating our wown middlewares
+function loggerMiddleware(req, res, next) {
+  const log = `\n [${Date.now()}] ${req.method} ${req.path}`;
+  fs.appendFileSync("log.txt", log, "utf-8");
+  next();
+}
+
+function customMiddleware(req, res, next) {
+  console.log("You're requesting a custom book from library");
+  next();
+}
+
+app.use(loggerMiddleware);
+
 app.get("/", (req, res) => res.end("You are on homepage"));
 
 app.get("/books", (req, res) => res.json(books));
 
-app.get("/books/:id", (req, res) => {
+app.get("/books/:id", customMiddleware, (req, res) => {
   const id = Number(req.params.id);
 
   if (isNaN(id)) return res.status(400).json(`Id must be a number!`);
