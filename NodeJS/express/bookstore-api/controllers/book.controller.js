@@ -25,7 +25,12 @@ exports.getAllBooks = async function (req, res) {
 
 exports.getBookById = async function (req, res) {
   const id = req.params.id;
-  const book = await db.select().from(booksTable).where(eq(booksTable.id, id));
+  const book = await db
+    .select()
+    .from(booksTable)
+    .where(eq(booksTable.id, id))
+    .leftJoin(authorsTable, eq(booksTable.authorId, authorsTable.id))
+    .limit(1);
 
   if (!book)
     return res
