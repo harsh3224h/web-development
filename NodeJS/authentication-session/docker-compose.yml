@@ -7,7 +7,7 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: mypassword
     ports:
-      - "5432:5432" # Added missing space and quotes for standard format
+      - "5432:5432" 
     volumes:
       - db_data:/var/lib/postgresql/data
 

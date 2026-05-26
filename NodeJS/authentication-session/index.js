@@ -7,7 +7,7 @@ const PORT = 8000;
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.status(201).end("Welcome to the Express app!");
+  res.status(201).end("Welcome to the Authentication Session app!");
 });
 
 app.use("/users", usersRouter);
