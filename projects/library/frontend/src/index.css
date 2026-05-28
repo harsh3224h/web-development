@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "tailwindcss";
+
+@theme {
+  /* Overrides the default utility class (font-sans) */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* Adds a completely new custom utility class (font-display) */
+  --font-stylish: "Shadows Into Light Two", sans-serif;
+}
