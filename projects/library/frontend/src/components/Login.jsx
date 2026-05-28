@@ -1,12 +1,47 @@
 import React from "react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { login } from "../store/authSlice";
 
 function Login() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState("");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  async function postData(url = "http://localhost:8000/auth/login", data = {}) {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => data);
+
+    return response;
+  }
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    const userData = { email, password };
+    const response = await postData(
+      "http://localhost:8000/auth/login",
+      userData,
+    );
+    console.log(response);
+    if (response.message) {
+      alert("Login Successfully");
+      setError("");
+      dispatch(login({ name: response.user.name, email: response.user.email }));
+      navigate("/account");
+    }
+    console.log(response);
+    setError(response.error);
   };
 
   return (
@@ -27,6 +62,7 @@ function Login() {
           onSubmit={handleLogin}
           className="w-full flex flex-col gap-5 max-w-[440px]"
         >
+          {error && <p className="text-center text-red-400">{error}</p>}
           <input
             type="email"
             placeholder="Email Address"

@@ -23,7 +23,7 @@ const login = async (req, res) => {
       .limit(1);
 
     if (!user) {
-      return res.status(400).json({ message: "Email not found!" });
+      return res.status(400).json({ error: "Email not found!" });
     }
 
     const { salt, hashedPassword } = user;
@@ -33,7 +33,7 @@ const login = async (req, res) => {
       .digest("hex");
 
     if (currentHashedPassword !== hashedPassword)
-      return res.status(404).json({ message: `Incorrect password!` });
+      return res.status(404).json({ error: `Incorrect password!` });
 
     return res.status(200).json({
       message: "Login Successfully",

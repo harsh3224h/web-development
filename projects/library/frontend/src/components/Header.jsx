@@ -1,7 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router";
 import logo from "../assets/logo.png";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../store/authSlice.js";
 
 function Header() {
   const navItems = [
@@ -16,7 +17,12 @@ function Header() {
       reference: "/about",
     },
   ];
+  const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const handleLogout = (e) => {
+    e.preventDefault();
+    dispatch(logout());
+  };
 
   return (
     <div className="mt-3 pl-10 pr-30 w-[98%] mx-auto h-[65px] bg-zinc-100 border rounded-2xl flex items-center justify-between">
@@ -43,6 +49,15 @@ function Header() {
           "
           >
             <NavLink to="/login">Log In</NavLink>
+          </div>
+        )}
+        {isAuthenticated && (
+          <div
+            className="
+          p-2 border rounded-2xl bg-zinc-300 px-4 font-stylish text-xl
+          "
+          >
+            <button onClick={handleLogout}>Logout</button>
           </div>
         )}
         {isAuthenticated && (
