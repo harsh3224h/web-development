@@ -1,14 +1,47 @@
 import React from "react";
 import { NavLink } from "react-router";
+import { useNavigate } from "react-router";
 
 function Signup() {
+  const navigate = useNavigate();
+
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState("");
+
+  async function postData(
+    url = "http://localhost:8000/auth/signup",
+    data = {},
+  ) {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => data);
+
+    return response;
+  }
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    // Handle signup logic here
+
+    const userData = { name, email, password };
+    const response = await postData(
+      "http://localhost:8000/auth/signup",
+      userData,
+    );
+    if (response.email) {
+      alert("Account Created Successfully");
+      setError("");
+      navigate("/login");
+    }
+    console.log(response);
+    setError(response.error);
   };
 
   return (
@@ -29,6 +62,7 @@ function Signup() {
           onSubmit={handleSignup}
           className="w-full flex flex-col gap-4 max-w-[440px]"
         >
+          {error && <p className="text-center text-red-400">{error}</p>}
           <input
             type="text"
             placeholder="Full Name"

@@ -74,7 +74,7 @@ const signup = async (req, res) => {
     .returning({ email: usersTable.email });
 
   if (insertOperation) {
-    res.status(201).json({
+    return res.status(201).json({
       message: `User created successfully`,
       email: insertOperation.email,
     });
