@@ -8,5 +8,6 @@ route.get("/", (req, res) => {
 
 route.post("/login", controller.login);
 route.post("/signup", controller.signup);
+route.post("/logout", controller.logout);
 
 export default route;

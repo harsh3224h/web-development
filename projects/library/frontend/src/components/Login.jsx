@@ -33,14 +33,18 @@ function Login() {
       "http://localhost:8000/auth/login",
       userData,
     );
-    console.log(response);
     if (response.message) {
       alert("Login Successfully");
       setError("");
-      dispatch(login({ name: response.user.name, email: response.user.email }));
+      dispatch(
+        login({
+          name: response.data.name,
+          email: response.data.email,
+          sessionId: response.data.sessionId,
+        }),
+      );
       navigate("/account");
     }
-    console.log(response);
     setError(response.error);
   };
 

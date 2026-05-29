@@ -17,11 +17,26 @@ function Header() {
       reference: "/about",
     },
   ];
+
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const handleLogout = (e) => {
+  const sessionId = useSelector((state) => state.auth.sessionId);
+
+  const handleLogout = async (e) => {
     e.preventDefault();
-    dispatch(logout());
+    const response = await fetch("http://localhost:8000/auth/logout", {
+      method: "POST",
+      headers: {
+        "session-id": sessionId,
+      },
+    });
+
+    const data = await response.json();
+    if (data.message) {
+      dispatch(logout());
+    } else {
+      alert("Unable to logout :(");
+    }
   };
 
   return (

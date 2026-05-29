@@ -1,4 +1,4 @@
-import { usersTable } from "../model/db/schema.js";
+import { usersTable, sessionsTable } from "../model/db/schema.js";
 import db from "../model/db/index.js";
 import { eq, and } from "drizzle-orm";
 import { randomBytes, createHmac, hash, Hmac } from "node:crypto";
@@ -17,6 +17,7 @@ const login = async (req, res) => {
         salt: usersTable.salt,
         name: usersTable.name,
         email: usersTable.email,
+        id: usersTable.id,
       })
       .from(usersTable)
       .where(eq(usersTable.email, email))
@@ -35,12 +36,23 @@ const login = async (req, res) => {
     if (currentHashedPassword !== hashedPassword)
       return res.status(404).json({ error: `Incorrect password!` });
 
+    const [session] = await db
+      .insert(sessionsTable)
+      .values({ userId: user.id })
+      .returning({ sessionId: sessionsTable.id });
+
     return res.status(200).json({
       message: "Login Successfully",
-      user: { name: user.name, email: user.email },
+      data: {
+        name: user.name,
+        email: user.email,
+        sessionId: session.sessionId,
+      },
     });
   } catch (error) {
-    return res.status(500).json({ error: "Internal server error" });
+    return res
+      .status(500)
+      .json({ error: "Internal server error", error: error.message });
   }
 };
 
@@ -83,4 +95,18 @@ const signup = async (req, res) => {
   return res.status(400).json({ message: `Something bad happened...` });
 };
 
-export default { login, signup };
+const logout = async (req, res) => {
+  if (req.user.sessionId) {
+    const [response] = await db
+      .delete(sessionsTable)
+      .where(eq(sessionsTable.id, req.user.sessionId))
+      .returning({ sessionID: sessionsTable.id });
+
+    if (response)
+      return res.status(201).json({
+        message: `User with sessionId: ${response.sessionID} is logged out.`,
+      });
+  }
+  return res.status(400).json({ error: `Error while logging out` });
+};
+export default { login, signup, logout };

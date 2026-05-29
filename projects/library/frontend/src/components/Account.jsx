@@ -4,7 +4,9 @@ import { logout } from "../store/authSlice";
 import { useNavigate, NavLink } from "react-router";
 
 function Account() {
-  const { user, isAuthenticated } = useSelector((state) => state.auth);
+  const { user, isAuthenticated, sessionId } = useSelector(
+    (state) => state.auth,
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -33,9 +35,22 @@ function Account() {
     },
   ];
 
-  const handleLogoutAction = () => {
-    dispatch(logout());
-    navigate("/login");
+  const handleLogoutAction = async (e) => {
+    e.preventDefault();
+    const response = await fetch("http://localhost:8000/auth/logout", {
+      method: "POST",
+      headers: {
+        "session-id": sessionId,
+      },
+    });
+
+    const data = await response.json();
+    if (data.message) {
+      dispatch(logout());
+      navigate("/login");
+    } else {
+      alert("Unable to logout :(");
+    }
   };
 
   // Guard Clause: Render Fallback Frame if state registry registers as unauthenticated
