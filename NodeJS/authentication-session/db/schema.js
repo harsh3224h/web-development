@@ -13,6 +13,7 @@ export const usersTable = pgTable("users", {
   email: varchar({ length: 255 }).notNull().unique(),
   password: text().notNull(),
   salt: text().notNull(),
+  role: varchar({ length: 255 }),
 });
 
 export const userSessions = pgTable("user_sessions", {

@@ -3,6 +3,9 @@ import db from "../db/index.js";
 import { eq } from "drizzle-orm";
 import { usersTable, userSessions } from "../db/schema.js";
 import { randomBytes, createHmac, hash, Hmac } from "node:crypto";
+import jwt from "jsonwebtoken";
+import { error } from "node:console";
+
 const router = express.Router();
 
 router.get("/", (req, res) => {
@@ -10,7 +13,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/signup", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   // validating if email & password is not empty
   if (!name || name === "")
@@ -19,6 +22,8 @@ router.post("/signup", async (req, res) => {
     return res.status(400).json({ error: `Email is required` });
   if (!password || password === "")
     return res.status(400).json({ error: `Password is required` });
+  if (!role || role === "")
+    return res.status(400).json({ error: `Role is required` });
 
   // validating if email already exists
   const [user_email] = await db
@@ -37,7 +42,7 @@ router.post("/signup", async (req, res) => {
 
   const [user] = await db
     .insert(usersTable)
-    .values({ name, email, password: hashedPassword, salt })
+    .values({ name, email, password: hashedPassword, salt, role })
     .returning({ id: usersTable.id });
 
   res.status(201).json({ message: `User created successfully`, data: user.id });
@@ -57,6 +62,7 @@ router.post("/login", async (req, res) => {
       email: usersTable.email,
       hashedPassword: usersTable.password,
       salt: usersTable.salt,
+      role: usersTable.role,
     })
     .from(usersTable)
     .where(eq(usersTable.email, email));
@@ -75,12 +81,16 @@ router.post("/login", async (req, res) => {
   if (currentHashedPassword !== hashedPassword)
     return res.status(404).json({ message: `Incorrect password!` });
 
-  // creating a session after successfull authentication
-  const newSession = await db
-    .insert(userSessions)
-    .values({ userId: user.userId });
+  const payload = {
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
+  const token = jwt.sign(payload, process.env.JWT_SECRET);
 
-  return res.status(201).json({ name: user.name, email: user.email });
+  return res
+    .status(201)
+    .json({ name: user.name, email: user.email, token: token });
 });
 
 router.delete("/me", async (req, res) => {
@@ -115,6 +125,25 @@ router.delete("/me", async (req, res) => {
   return res
     .status(201)
     .json({ message: `User with email ${email} deleted successfully.` });
+});
+
+router.get("/admin", (req, res) => {
+  const authorization = req.headers["authorization"];
+  const token = authorization.split(" ")[1];
+  console.log(token);
+
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  if (!decoded) {
+    return res.status(400).json({ error: "Unable to authenticate" });
+  }
+
+  if (decoded.role !== "admin") {
+    return res
+      .status(401)
+      .json({ error: `You are not authorized to this route.` });
+  }
+
+  return res.status(201).json({ message: `Welcome to admin route` });
 });
 
 export default router;
