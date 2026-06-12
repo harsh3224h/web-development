@@ -5,15 +5,16 @@ import { nanoid } from "nanoid";
 import db from "../db/index.js";
 import { usersTable, urlsTable } from "../models/schema.js";
 import { eq, and } from "drizzle-orm";
-import { error } from "node:console";
 
 const router = express.Router();
 
 router.post("/shorten", ensureAuthenticated, async (req, res) => {
   try {
     const URLValidation = await shortenURLSchema.safeParseAsync(req.body);
-    if (URLValidation.error) {
-      return res.status(400).json({ error: `You must pass the URL` });
+    if (!URLValidation.success) {
+      return res.status(400).json({
+        error: URLValidation.error.issues,
+      });
     }
 
     const shortCode = nanoid(6);
