@@ -13,10 +13,8 @@ structured modules and practice work across the following technologies:
 - **JavaScript**
 - **React**
 - **NodeJS**
-<!-- -  **Front-end Libraries** *(upcoming)*
-- **Python for Web** _(upcoming)_
-- **Relational Databases (MySQL, PostgreSQL)** _(upcoming)_ -->
-<!-- -  **Backend with JavaScript (Node.js, Express.js)** *(upcoming)* -->
+- **ExpressJS**
+- **MongoDB**
 
 > **Note:** This repository is actively growing — updates and new content are frequent.
 
@@ -31,6 +29,7 @@ web-development/
 ├── JavaScript/
 ├── react/
 ├── NodeJS/
+├── MongoDB/
 ├── Projects/
 ├── workshops and labs/
 ├── docs/
