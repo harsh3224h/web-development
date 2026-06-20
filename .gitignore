@@ -1,1 +1,4 @@
 React/mega-blog-appwrite/.env
+node_modules
+.env
+.Vscode
