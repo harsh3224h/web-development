@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#7c5e4b" />
+    
+    <!-- PWA iOS support -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Cozy Techo" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Cozy Journal Stylesheet -->
+    <link rel="stylesheet" href="/src/style.css" />
+    
+    <title>Cozy Techo - Japanese Style Journal</title>
+    
+    <!-- Google Fonts: JetBrains Mono and Sawarabi Mincho for gorgeous headings -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Sawarabi+Mincho&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="app-container">
+      
+      <!-- Top Ambient Panel / Header -->
+      <header class="app-header">
+        <div class="logo-area">
+          <span class="japanese-title">こつこつ日記</span>
+          <h1 class="english-title">Cozy Techo</h1>
+        </div>
+        
+        <!-- Controls area -->
+        <div class="controls-panel">
+          
+          <!-- Offline indicator -->
+          <div id="offlineIndicator" class="offline-indicator online" title="Status: Online">
+            <span class="lantern-icon">🏮</span>
+            <span class="indicator-text">Online</span>
+          </div>
+
+          <!-- Steaming Green Tea Cup Widget -->
+          <div class="tea-widget-container" id="teaWidget" title="Click to take a sip of hot matcha!">
+            <div class="tea-steam">
+              <span class="steam-line line-1"></span>
+              <span class="steam-line line-2"></span>
+              <span class="steam-line line-3"></span>
+            </div>
+            <div class="tea-cup">
+              <div class="cup-glaze"></div>
+              <div class="matcha-liquid"></div>
+            </div>
+            <span class="tea-counter" id="teaCounter">🍵 x0</span>
+          </div>
+
+          <!-- Soundscape panel -->
+          <div class="sound-controls">
+            <!-- Typewriter toggle -->
+            <button id="typewriterToggle" class="control-btn muted" title="Toggle Keyboard Clicks">
+              <span class="icon">⌨️</span>
+              <span class="status-dot"></span>
+            </button>
+            
+            <!-- Rain toggle/slider -->
+            <div class="rain-control-group">
+              <button id="rainToggle" class="control-btn muted" title="Toggle Ambient Rain">
+                <span class="icon">🌧️</span>
+                <span class="status-dot"></span>
+              </button>
+              <div class="slider-popover">
+                <input type="range" id="rainVolume" min="0" max="1" step="0.05" value="0.3" aria-label="Rain Volume" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Notebook Container -->
+      <main class="notebook-wrapper">
+        <div class="notebook-body">
+          
+          <!-- Left Page: List, Calendar, Stats -->
+          <section class="notebook-page page-left">
+            <div class="page-content">
+              
+              <!-- Date picker / Calendar -->
+              <div class="calendar-section">
+                <h2 class="section-title">暦 / Calendar</h2>
+                <div class="calendar-header">
+                  <button id="prevMonth" class="arrow-btn" aria-label="Previous Month">◀</button>
+                  <span id="currentMonthYear" class="month-year-label">July 2026</span>
+                  <button id="nextMonth" class="arrow-btn" aria-label="Next Month">▶</button>
+                </div>
+                <div class="calendar-grid-header">
+                  <span>日</span><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span>
+                </div>
+                <div id="calendarDays" class="calendar-grid-days">
+                  <!-- Days injected via JS -->
+                </div>
+              </div>
+              
+              <!-- Entries Search and List -->
+              <div class="entries-section">
+                <h2 class="section-title">過去ログ / Log</h2>
+                <input type="text" id="searchEntries" placeholder="Search entries..." class="mono-search-input" />
+                <div id="entriesList" class="entries-list">
+                  <!-- Entry items injected via JS -->
+                </div>
+              </div>
+
+              <!-- Stats & Backup -->
+              <div class="stats-backup-section">
+                <div class="stats-panel">
+                  <div class="stat-item">
+                    <span class="stat-val" id="totalEntriesVal">0</span>
+                    <span class="stat-lbl">Entries</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-val" id="streakVal">0</span>
+                    <span class="stat-lbl">Streak</span>
+                  </div>
+                </div>
+                <div class="backup-actions">
+                  <button id="exportBtn" class="btn btn-secondary mono-btn" title="Export data to JSON file">Export JSON</button>
+                  <label for="importFile" class="btn btn-secondary mono-btn file-label" title="Import data from JSON file">
+                    Import JSON
+                    <input type="file" id="importFile" accept=".json" style="display: none;" />
+                  </label>
+                </div>
+              </div>
+              
+            </div>
+            <div class="page-number-left" id="pageNumberLeft">1</div>
+          </section>
+
+          <!-- Notebook Spine Rings Decoration -->
+          <div class="notebook-spine">
+            <div class="spine-line"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+          </div>
+
+          <!-- Right Page: Writer/Viewer -->
+          <section class="notebook-page page-right">
+            <div class="page-content">
+              
+              <!-- Editor Header / Date Info -->
+              <div class="editor-header">
+                <div class="date-display">
+                  <span id="selectedDateString" class="date-string">2026年07月18日</span>
+                  <span id="selectedDayOfWeek" class="day-badge">土曜日</span>
+                </div>
+                
+                <!-- Cozy Mood Selector -->
+                <div class="mood-selector">
+                  <span class="mood-title">気分 / Mood</span>
+                  <div class="mood-options">
+                    <button class="mood-btn" data-mood="sakura" title="Happy/Sakura">🌸</button>
+                    <button class="mood-btn" data-mood="matcha" title="Calm/Matcha">🍵</button>
+                    <button class="mood-btn" data-mood="autumn" title="Thoughtful/Autumn">🍂</button>
+                    <button class="mood-btn" data-mood="kitsune" title="Playful/Kitsune">🦊</button>
+                    <button class="mood-btn" data-mood="moon" title="Sleepy/Moon">🌙</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Main Writing Page -->
+              <div class="editor-area-wrapper">
+                
+                <!-- Hanko Stamp Selection Drawer -->
+                <div class="stamp-drawer">
+                  <span class="drawer-title">判子 / Stamps</span>
+                  <div class="stamps-list">
+                    <button class="stamp-item" data-stamp="済" title="Complete (済)">済</button>
+                    <button class="stamp-item" data-stamp="吉" title="Good Fortune (吉)">吉</button>
+                    <button class="stamp-item" data-stamp="楽" title="Joy (楽)">楽</button>
+                    <button class="stamp-item" data-stamp="温" title="Cozy/Warm (温)">温</button>
+                    <button class="stamp-item" data-stamp="🌸" title="Sakura">🌸</button>
+                    <button class="stamp-item" data-stamp="💮" title="Well Done">💮</button>
+                  </div>
+                </div>
+                
+                <!-- Writing Sheet (Genkou Youshi gridded area) -->
+                <div class="writing-sheet">
+                  <!-- Applied Hanko Stamps container (will overlay on the page dynamically) -->
+                  <div id="placedStampsContainer" class="placed-stamps-container"></div>
+                  
+                  <textarea id="journalContent" class="journal-textarea" placeholder="今日の出来事や想いを綴りましょう... Write your thoughts for today here..."></textarea>
+                </div>
+              </div>
+
+              <!-- Editor Footer / Actions -->
+              <div class="editor-footer">
+                <span id="saveStatus" class="save-status">Saved automatically</span>
+                <div class="action-buttons">
+                  <button id="deleteEntryBtn" class="btn btn-danger mono-btn" title="Delete this entry">Delete</button>
+                  <button id="saveEntryBtn" class="btn btn-primary mono-btn" title="Force Save">Save</button>
+                </div>
+              </div>
+
+            </div>
+            <div class="page-number-right" id="pageNumberRight">2</div>
+          </section>
+
+        </div>
+      </main>
+
+      <!-- PWA Install Promotion Banner -->
+      <div id="installBanner" class="install-banner hidden">
+        <span class="banner-text">🏮 Take Cozy Techo offline! Install it on your device.</span>
+        <div class="banner-buttons">
+          <button id="declineInstallBtn" class="btn btn-text">Not now</button>
+          <button id="acceptInstallBtn" class="btn btn-primary mono-btn">Install</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script module -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

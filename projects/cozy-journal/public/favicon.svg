@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Definitions for gradients and shadows -->
+  <defs>
+    <linearGradient id="teaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b5c4b1" />
+      <stop offset="100%" stop-color="#8a9a86" />
+    </linearGradient>
+    <linearGradient id="cupGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#faf6f0" />
+      <stop offset="100%" stop-color="#e8e0d5" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#7c5e4b" flood-opacity="0.12" />
+    </filter>
+  </defs>
+
+  <!-- Solid Cozy Soft Background (For manifest icons, but transparent here - we use a rounded rect for app icon feel) -->
+  <rect width="480" height="480" rx="120" x="16" y="16" fill="#faf8f5" filter="url(#shadow)" />
+
+  <!-- Wooden Table Accent -->
+  <path d="M 40 400 L 472 400" stroke="#7c5e4b" stroke-width="12" stroke-linecap="round" opacity="0.4" />
+
+  <!-- Steaming lines (Cozy Tea Steam) -->
+  <g stroke="#8a9a86" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.7">
+    <!-- Left Steam Line -->
+    <path d="M 210 210 Q 195 170 210 130 T 210 60" />
+    <!-- Middle Steam Line -->
+    <path d="M 256 200 Q 275 160 256 120 T 256 50" />
+    <!-- Right Steam Line -->
+    <path d="M 302 210 Q 285 170 302 130 T 302 60" />
+  </g>
+
+  <!-- Tatami coaster / Wood Coaster -->
+  <ellipse cx="256" cy="380" rx="110" ry="20" fill="#7c5e4b" opacity="0.25" />
+  <ellipse cx="256" cy="375" rx="100" ry="15" fill="#d0bda7" stroke="#7c5e4b" stroke-width="4" />
+
+  <!-- Japanese Tea Cup (Yunomi) Body -->
+  <!-- Stoneware body with simple organic shape -->
+  <path d="M 180 250 C 180 340, 200 360, 256 360 C 312 360, 332 340, 332 250 Z" fill="url(#cupGradient)" stroke="#7c5e4b" stroke-width="10" stroke-linejoin="round" />
+
+  <!-- Matcha Tea Liquid Surface (Inside cup rim) -->
+  <ellipse cx="256" cy="250" rx="71" ry="14" fill="url(#teaGradient)" stroke="#7c5e4b" stroke-width="4" />
+
+  <!-- Hand-painted tea cup glaze band -->
+  <path d="M 183 280 Q 256 300 329 280" fill="none" stroke="#b5c4b1" stroke-width="16" stroke-linecap="round" opacity="0.8" />
+  <path d="M 190 310 Q 256 325 322 310" fill="none" stroke="#8a9a86" stroke-width="8" stroke-linecap="round" opacity="0.6" />
+
+  <!-- Traditional Hanko (Red Seal) in bottom right corner -->
+  <g transform="translate(330, 310)">
+    <!-- Red Square Container with slightly rough edges -->
+    <rect width="70" height="70" rx="12" fill="#c94a47" />
+    <!-- White Kanji character "温" (Cozy / Warm) -->
+    <!-- Draw Kanji using basic strokes for compatibility/vector rendering -->
+    <!-- Water radical on left, warm on right -->
+    <g stroke="#faf8f5" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <!-- Water radical (San-sui) -->
+      <path d="M 18 20 C 22 24, 20 28, 18 30" />
+      <path d="M 16 38 C 20 40, 18 44, 16 46" />
+      <path d="M 14 56 C 18 52, 22 48, 24 44" />
+      
+      <!-- Right part: 温 (upper part 日, middle part 皿, lower part/elements) -->
+      <!-- Top outline (日) -->
+      <rect x="28" y="16" width="28" height="16" rx="2" stroke-width="4" />
+      <path d="M 28 24 L 56 24" />
+      
+      <!-- Bottom part (皿) -->
+      <path d="M 26 44 L 58 44" stroke-width="5" />
+      <path d="M 30 44 L 30 52" />
+      <path d="M 42 44 L 42 52" />
+      <path d="M 54 44 L 54 52" />
+      <path d="M 26 54 L 58 54" stroke-width="5" />
+    </g>
+  </g>
+</svg>
