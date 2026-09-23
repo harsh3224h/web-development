@@ -1,8 +1,8 @@
 import React from "react";
 
-const page = async ({ params }) => {
+const UserIdPage = async ({ params }) => {
   const { userId } = await params;
-  return <div>Hey user {userId}</div>;
+  return <div>paramsId: {userId}</div>;
 };
 
-export default page;
+export default UserIdPage;
